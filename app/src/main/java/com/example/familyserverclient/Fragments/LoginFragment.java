@@ -3,6 +3,8 @@ package com.example.familyserverclient.Fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,62 @@ public class LoginFragment extends Fragment
     private Button registerBtn;
     private Button loginBtn;
 
+    private TextWatcher mTextWatcher = new TextWatcher()
+    {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            // check Fields For Empty Values
+            checkFieldsForEmptyValues();
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener mRadioWatcher = new RadioGroup.OnCheckedChangeListener()
+    {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int id)
+        {
+            checkFieldsForEmptyValues();
+        }
+    };
+
+    private void checkFieldsForEmptyValues()
+    {
+        if (!this.serverHost.getText().toString().equals("") &&
+            !this.serverPort.getText().toString().equals("") &&
+            !this.userName.getText().toString().equals("") &&
+            !this.password.getText().toString().equals(""))
+        {
+            this.loginBtn.setEnabled(true);
+        }
+        else
+        {
+            this.loginBtn.setEnabled(false);
+        }
+        if (!this.serverHost.getText().toString().equals("") &&
+            !this.serverPort.getText().toString().equals("") &&
+            !this.userName.getText().toString().equals("") &&
+            !this.password.getText().toString().equals("") &&
+            !this.firstName.getText().toString().equals("") &&
+            !this.lastName.getText().toString().equals("") &&
+            !this.email.getText().toString().equals("") &&
+            this.gender.getCheckedRadioButtonId() != -1)
+        {
+            this.registerBtn.setEnabled(true);
+        }
+        else
+        {
+            this.registerBtn.setEnabled(false);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -51,6 +109,17 @@ public class LoginFragment extends Fragment
         this.gender = (RadioGroup)v.findViewById(R.id.gender);
         this.loginBtn = (Button)v.findViewById(R.id.loginBtn);
         this.registerBtn = (Button)v.findViewById(R.id.registerBtn);
+
+        this.serverHost.addTextChangedListener(this.mTextWatcher);
+        this.serverPort.addTextChangedListener(this.mTextWatcher);
+        this.userName.addTextChangedListener(this.mTextWatcher);
+        this.password.addTextChangedListener(this.mTextWatcher);
+        this.firstName.addTextChangedListener(this.mTextWatcher);
+        this.lastName.addTextChangedListener(this.mTextWatcher);
+        this.email.addTextChangedListener(this.mTextWatcher);
+        this.gender.setOnCheckedChangeListener(this.mRadioWatcher);
+
+        checkFieldsForEmptyValues();
 
         this.loginBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -136,23 +205,30 @@ public class LoginFragment extends Fragment
         }
         protected void onPostExecute(LoginResult result)
         {
-            if (result.getMessage() != null)
+            if (result == null)
             {
-                Toast.makeText(LoginFragment.this.getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                try
+                if (result.getMessage() != null)
                 {
-                    ArrayList params = new ArrayList(2);
-                    params.add(new URL("http://" + serverHost.getText() + ":" + serverPort.getText() + "/person"));
-                    params.add(result.getAuthToken());
-                    PersonAllTask task = new PersonAllTask();
-                    task.execute(params);
+                    Toast.makeText(LoginFragment.this.getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                catch (MalformedURLException e)
+                else
                 {
-                    Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
+                    try
+                    {
+                        ArrayList params = new ArrayList(2);
+                        params.add(new URL("http://" + serverHost.getText() + ":" + serverPort.getText() + "/person"));
+                        params.add(result.getAuthToken());
+                        PersonAllTask task = new PersonAllTask();
+                        task.execute(params);
+                    }
+                    catch (MalformedURLException e)
+                    {
+                        Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }
@@ -174,23 +250,30 @@ public class LoginFragment extends Fragment
         }
         protected void onPostExecute(LoginResult result)
         {
-            if (result.getMessage() != null)
+            if (result == null)
             {
-                Toast.makeText(LoginFragment.this.getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                try
+                if (result.getMessage() != null)
                 {
-                    ArrayList params = new ArrayList(2);
-                    params.add(new URL("http://" + serverHost.getText() + ":" + serverPort.getText() + "/person"));
-                    params.add(result.getAuthToken());
-                    PersonAllTask task = new PersonAllTask();
-                    task.execute(params);
+                    Toast.makeText(LoginFragment.this.getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                catch (MalformedURLException e)
+                else
                 {
-                    Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
+                    try
+                    {
+                        ArrayList params = new ArrayList(2);
+                        params.add(new URL("http://" + serverHost.getText() + ":" + serverPort.getText() + "/person"));
+                        params.add(result.getAuthToken());
+                        PersonAllTask task = new PersonAllTask();
+                        task.execute(params);
+                    }
+                    catch (MalformedURLException e)
+                    {
+                        Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }
