@@ -60,10 +60,11 @@
         android:layout_height="wrap_content"
         android:hint="@string/email_placeholder"
     />
-    <RadioGroup
+     <RadioGroup
         android:id="@+id/gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
     >
         <RadioButton
             android:text="Male"
@@ -78,12 +79,25 @@
         >
         </RadioButton>
     </RadioGroup>
-    <Button
-        android:id="@+id/loginBtn"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:orientation="horizontal"
     >
-
-    </Button>
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            >
+        </Button>
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            >
+        </Button>
+    </LinearLayout>
 </LinearLayout>
