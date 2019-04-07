@@ -3,6 +3,7 @@ package com.example.familyserverclient.Fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+import com.example.familyserverclient.MainActivity;
 import com.example.familyserverclient.Models.*;
 import com.example.familyserverclient.R;
 import java.net.MalformedURLException;
@@ -134,6 +136,7 @@ public class LoginFragment extends Fragment
             public void onClick(View v)
             {
                 String selectedGender = null;
+                int test = (int)gender.getCheckedRadioButtonId();
                 if (((int)(gender.getCheckedRadioButtonId()) == 1))
                 {
                     selectedGender = "m";
@@ -211,24 +214,16 @@ public class LoginFragment extends Fragment
             }
             else
             {
-                if (result.getMessage() != null)
+                if (result.getAuthToken() == null)
                 {
                     Toast.makeText(LoginFragment.this.getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    try
-                    {
-                        ArrayList params = new ArrayList(2);
-                        params.add(new URL("http://" + serverHost.getText() + ":" + serverPort.getText() + "/person"));
-                        params.add(result.getAuthToken());
-                        PersonAllTask task = new PersonAllTask();
-                        task.execute(params);
-                    }
-                    catch (MalformedURLException e)
-                    {
-                        Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
-                    }
+                    ((MainActivity)getActivity()).setAuthToken(result.getAuthToken());
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    Fragment fragment = new MapFragment();
+                    fm.beginTransaction().replace(R.id.mainFragment, fragment).commit();
                 }
             }
         }
@@ -256,47 +251,18 @@ public class LoginFragment extends Fragment
             }
             else
             {
-                if (result.getMessage() != null)
+                if (result.getAuthToken() == null)
                 {
                     Toast.makeText(LoginFragment.this.getContext(), result.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    try
-                    {
-                        ArrayList params = new ArrayList(2);
-                        params.add(new URL("http://" + serverHost.getText() + ":" + serverPort.getText() + "/person"));
-                        params.add(result.getAuthToken());
-                        PersonAllTask task = new PersonAllTask();
-                        task.execute(params);
-                    }
-                    catch (MalformedURLException e)
-                    {
-                        Toast.makeText(LoginFragment.this.getContext(), "Request failed, please check your server host or port", Toast.LENGTH_SHORT).show();
-                    }
+                    ((MainActivity)getActivity()).setAuthToken(result.getAuthToken());
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    Fragment fragment = new MapFragment();
+                    fm.beginTransaction().replace(R.id.mainFragment, fragment).commit();
                 }
             }
-        }
-    }
-
-    public class PersonAllTask extends AsyncTask<ArrayList, Integer, PersonAllResult>
-    {
-        protected PersonAllResult doInBackground(ArrayList... params)
-        {
-            HttpClient httpClient = new HttpClient();
-
-            String responseMsg = null;
-            for (int i = 0; i < params.length; i++)
-            {
-                responseMsg = httpClient.getRequest((URL)params[i].get(0), (String)params[i].get(1));
-            }
-
-            return new Gson().fromJson(responseMsg, PersonAllResult.class);
-        }
-        protected void onPostExecute(PersonAllResult result)
-        {
-            String message = result.getData().get(0).getFirstName() + " " + result.getData().get(0).getLastName();
-            Toast.makeText(LoginFragment.this.getContext(), message, Toast.LENGTH_SHORT).show();
         }
     }
 }

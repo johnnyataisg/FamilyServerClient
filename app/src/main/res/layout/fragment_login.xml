@@ -1,175 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
->
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:paddingTop="50dp"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Server Host: "
-        >
-        </TextView>
+            android:gravity="end"
+            android:text="Server Host: "></TextView>
         <EditText
             android:id="@+id/server_host"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/host_placeholder"
-        />
+            android:hint="@string/host_placeholder"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Server Port: "
-        >
-        </TextView>
+            android:gravity="end"
+            android:text="Server Port: "></TextView>
         <EditText
             android:id="@+id/server_port"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/port_placeholder"
-        />
+            android:hint="@string/port_placeholder" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Username: "
-        >
-        </TextView>
+            android:gravity="end"
+            android:text="Username: "></TextView>
         <EditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/username_placeholder"
-        />
+            android:hint="@string/username_placeholder" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Password: "
-        >
-        </TextView>
+            android:gravity="end"
+            android:text="Password: "></TextView>
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_placeholder"
-        />
+            android:inputType="textPassword"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="First Name: "
-        >
-        </TextView>
+            android:gravity="end"
+            android:text="First Name: "></TextView>
         <EditText
             android:id="@+id/firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/firstname_placeholder"
-        />
+            android:hint="@string/firstname_placeholder" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Last Name: "
-        >
-        </TextView>
+            android:gravity="end"
+            android:text="Last Name: "></TextView>
         <EditText
             android:id="@+id/lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/lastname_placeholder"
-        />
+            android:hint="@string/lastname_placeholder" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Email: "
-        >
-        </TextView>
+            android:gravity="end"
+            android:text="Email: "></TextView>
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email_placeholder"
-        />
+            android:hint="@string/email_placeholder" />
     </LinearLayout>
-
-     <RadioGroup
-        android:id="@+id/gender"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
-        <RadioButton
-            android:text="Male"
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="Gender: "></TextView>
+        <RadioGroup
+            android:id="@+id/gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-        >
-        </RadioButton>
-        <RadioButton
-            android:text="Female"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        >
-        </RadioButton>
-    </RadioGroup>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"></RadioButton>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"></RadioButton>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-    >
-        <Button
-            android:id="@+id/loginBtn"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            >
-        </Button>
-        <Button
-            android:id="@+id/registerBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            >
-        </Button>
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/loginBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"></Button>
+            <Button
+                android:id="@+id/registerBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"></Button>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
