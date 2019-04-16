@@ -31,7 +31,6 @@ public class LoginFragment extends Fragment
     private EditText lastName;
     private EditText email;
     private RadioGroup gender;
-
     private Button registerBtn;
     private Button loginBtn;
 
@@ -220,7 +219,8 @@ public class LoginFragment extends Fragment
                 }
                 else
                 {
-                    ((MainActivity)getActivity()).setAuthToken(result.getAuthToken());
+                    ((MainActivity)getActivity()).setLoginObject(result);
+                    ((MainActivity)getActivity()).setServerHost(serverHost.getText().toString());
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     Fragment fragment = new MapFragment();
                     fm.beginTransaction().replace(R.id.mainFragment, fragment).commit();
@@ -257,7 +257,8 @@ public class LoginFragment extends Fragment
                 }
                 else
                 {
-                    ((MainActivity)getActivity()).setAuthToken(result.getAuthToken());
+                    ((MainActivity)getActivity()).setLoginObject(result);
+                    ((MainActivity)getActivity()).setServerHost(serverHost.getText().toString());
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     Fragment fragment = new MapFragment();
                     fm.beginTransaction().replace(R.id.mainFragment, fragment).commit();

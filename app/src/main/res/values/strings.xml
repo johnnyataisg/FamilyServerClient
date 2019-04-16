@@ -7,4 +7,5 @@
     <string name="firstname_placeholder">Enter your first name</string>
     <string name="lastname_placeholder">Enter your last name</string>
     <string name="email_placeholder">Enter your email</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
