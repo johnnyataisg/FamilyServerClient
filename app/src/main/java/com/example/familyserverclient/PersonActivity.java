@@ -1,30 +1,35 @@
 package com.example.familyserverclient;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.familyserverclient.Models.Event;
+import com.example.familyserverclient.Models.ExpandableListAdapter;
 import com.example.familyserverclient.Models.HttpClient;
 import com.example.familyserverclient.Models.LoginResult;
+import com.example.familyserverclient.Models.Person;
+import com.example.familyserverclient.Models.PersonAllResult;
 import com.example.familyserverclient.Results.EventRelatedResult;
 import com.example.familyserverclient.Results.PersonResult;
 import com.google.gson.Gson;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PersonActivity extends AppCompatActivity
 {
     private LoginResult loginResultObject;
     private String serverHost = "192.168.56.1";
     private PersonResult selectedPersonObject;
+    private HashMap<String, ArrayList> expandableListData = new HashMap<>();
     private TextView firstName;
     private TextView lastName;
     private TextView gender;
@@ -43,7 +48,50 @@ public class PersonActivity extends AppCompatActivity
             this.gender.setText("Female");
         }
         EventRelatedResult relatedEvents = sendRelatedEventRequest(this.selectedPersonObject.getPersonID(), this.loginResultObject.getAuthToken());
+        PersonAllResult relatedPeople = sendPersonAllRequest(this.loginResultObject.getAuthToken());
+
+        List<Event> eList = relatedEvents.getData();
+        ArrayList params = new ArrayList(2);
+        params.add(eList);
+        params.add(this.selectedPersonObject.getFirstName() + " " + this.selectedPersonObject.getLastName());
+//        List<String> relatedPeopleList = getRelatedPeople(relatedPeople);
+//        List<String> eList = new ArrayList<>();
+//        for (Event event : relatedEvents.getData())
+//        {
+//            String eventDetails = event.getEventType() + ": " + event.getCity() + ", " + event.getCountry() + " (" + event.getYear() + ")" + "\n" + this.selectedPersonObject.getFirstName() + " " + this.selectedPersonObject.getLastName();
+//            eList.add(eventDetails);
+//        }
+        this.expandableListData.put("Life Events", params);
+//        this.expandableListData.put("Family", relatedPeopleList);
+        List<String> expandableListTitle = new ArrayList<String>(expandableListData.keySet());
+        ExpandableListAdapter expandableListAdapter = new ExpandableListAdapter(this, expandableListTitle, expandableListData);
+        this.eventList.setAdapter(expandableListAdapter);
     }
+
+//    public List<String> getRelatedPeople(PersonAllResult result)
+//    {
+//        List<String> output = new ArrayList<>();
+//        for (Person person : result.getData())
+//        {
+//            String personDetails = null;
+//            if (this.selectedPersonObject.getPersonID().equals(person.getFather()) || this.selectedPersonObject.getPersonID().equals(person.getMother()))
+//            {
+//                personDetails = person.getFirstName() + " " + person.getLastName() + "\nChild";
+//                output.add(personDetails);
+//            }
+//            else if (this.selectedPersonObject.getPersonID().equals(person.getSpouse()))
+//            {
+//                personDetails = person.getFirstName() + " " + person.getLastName() + "\nSpouse";
+//                output.add(personDetails);
+//            }
+//            else if (person.getPersonID().equals(this.selectedPersonObject.getFather()) || person.getPersonID().equals(this.selectedPersonObject.getMother()))
+//            {
+//                personDetails = person.getFirstName() + " " + person.getLastName() + "\nParent";
+//                output.add(personDetails);
+//            }
+//        }
+//        return output;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,6 +115,32 @@ public class PersonActivity extends AppCompatActivity
         this.eventList = (ExpandableListView)findViewById(R.id.eventList);
 
         updateFields();
+    }
+
+    public PersonAllResult sendPersonAllRequest(String auth_token)
+    {
+        try
+        {
+            PersonAllTask task = new PersonAllTask();
+            String url = "http://" + this.serverHost + ":8080/person";
+            ArrayList params = new ArrayList(2);
+            params.add(new URL(url));
+            params.add(auth_token);
+            try
+            {
+                PersonAllResult result = task.execute(params).get();
+                return result;
+            }
+            catch(Exception e)
+            {
+                Toast.makeText(PersonActivity.this, "Person all request failed, please check your connection", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch(MalformedURLException e)
+        {
+            Toast.makeText(PersonActivity.this, "Person all request failed, please check your connection", Toast.LENGTH_SHORT).show();
+        }
+        return null;
     }
 
     public EventRelatedResult sendRelatedEventRequest(String personID, String auth_token)
@@ -93,6 +167,35 @@ public class PersonActivity extends AppCompatActivity
             Toast.makeText(PersonActivity.this, "Person request failed, please check your connection", Toast.LENGTH_SHORT).show();
         }
         return null;
+    }
+
+    public class PersonAllTask extends AsyncTask<ArrayList, Integer, PersonAllResult>
+    {
+        protected PersonAllResult doInBackground(ArrayList... params)
+        {
+            HttpClient httpClient = new HttpClient();
+
+            String responseMsg = null;
+            for (int i = 0; i < params.length; i++)
+            {
+                responseMsg = httpClient.getRequest((URL)params[i].get(0), (String)params[i].get(1));
+            }
+            return new Gson().fromJson(responseMsg, PersonAllResult.class);
+        }
+        protected void onPostExecute(PersonAllResult result)
+        {
+            if (result == null)
+            {
+                Toast.makeText(PersonActivity.this, "Person all request failed, please check your connection", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                if (result.getData() == null)
+                {
+                    Toast.makeText(PersonActivity.this, result.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     public class EventRelatedTask extends AsyncTask<ArrayList, Integer, EventRelatedResult>
