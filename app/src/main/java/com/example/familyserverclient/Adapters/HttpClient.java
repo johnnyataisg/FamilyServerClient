@@ -1,4 +1,4 @@
-package com.example.familyserverclient.Models;
+package com.example.familyserverclient.Adapters;
 
 import android.util.Log;
 import java.io.ByteArrayOutputStream;

@@ -1,4 +1,4 @@
-package com.example.familyserverclient.Models;
+package com.example.familyserverclient.Results;
 
 public class LoginResult
 {

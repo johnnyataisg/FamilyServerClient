@@ -1,4 +1,6 @@
-package com.example.familyserverclient.Models;
+package com.example.familyserverclient.Results;
+
+import com.example.familyserverclient.Models.Person;
 
 import java.util.List;
 

@@ -1,7 +1,8 @@
 package com.example.familyserverclient;
 
 import com.example.familyserverclient.Fragments.LoginFragment;
-import com.example.familyserverclient.Models.LoginResult;
+import com.example.familyserverclient.Fragments.MapFragment;
+import com.example.familyserverclient.Results.LoginResult;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
@@ -10,8 +11,8 @@ import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity
 {
-    private LoginResult loginResultObject;
-    private String serverHost = null;
+    private static LoginResult loginResultObject;
+    private static String serverHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,28 +27,35 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = fm.findFragmentById(R.id.mainFragment);
         if (fragment == null)
         {
-            fragment = new LoginFragment();
+            if (loginResultObject != null)
+            {
+                fragment = new MapFragment();
+            }
+            else
+            {
+                fragment = new LoginFragment();
+            }
             fm.beginTransaction().add(R.id.mainFragment, fragment).commit();
         }
     }
 
     public LoginResult getLoginObject()
     {
-        return this.loginResultObject;
+        return loginResultObject;
     }
 
     public String getServerHost()
     {
-        return this.serverHost;
+        return serverHost;
     }
 
     public void setLoginObject(LoginResult result)
     {
-        this.loginResultObject = result;
+        loginResultObject = result;
     }
 
     public void setServerHost(String host)
     {
-        this.serverHost = host;
+        serverHost = host;
     }
 }

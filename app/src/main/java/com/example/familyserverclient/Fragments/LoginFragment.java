@@ -13,12 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.example.familyserverclient.Adapters.HttpClient;
 import com.example.familyserverclient.MainActivity;
 import com.example.familyserverclient.Models.*;
 import com.example.familyserverclient.R;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import com.example.familyserverclient.Results.LoginResult;
 import com.google.gson.*;
 
 public class LoginFragment extends Fragment

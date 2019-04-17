@@ -70,6 +70,10 @@
         <ExpandableListView
             android:id="@+id/eventList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ExpandableListView>
+            android:layout_height="wrap_content"></ExpandableListView>
+        <ExpandableListView
+            android:id="@+id/familyList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ExpandableListView>
     </LinearLayout>
 </LinearLayout>
